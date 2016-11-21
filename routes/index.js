@@ -3,6 +3,7 @@
  * Created by dipper on 2016/11/11.
  */
 module.exports = function (app) {
+    
     //重定向到查看文章路由
     app.get('/',function(req,res){
         res.redirect('/posts');

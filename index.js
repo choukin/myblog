@@ -33,7 +33,28 @@ app.use(session({
 }))
 // fash 中间件 用来显示通知
 app.use(flash());
+//处理表单及文件上传
+app.use(require('express-formidable')({
+    uploadDir:path.join(__dirname,'public/img/avatar'),// 上传文件目录
+    keepExtensions:true// 保留后缀
+}))
 
+//设置模版全局变量
+// app.locals 上通常挂载常量信息
+// 在调用 res.render 的时候，express 合并（merge）了 3 处的结果后传入要渲染的模板，
+// 优先级：res.render 传入的对象> res.locals 对象 > app.locals 对象
+app.locals.blog = {
+    title:pkg.name,
+    description:pkg.description
+}
+// 添加模版必须的三个变量
+// res.locals 上通常挂载变量信息
+app.use(function (req,res,next) {
+    res.locals.user = req.session.user;
+    res.locals.success = req.flash("success").toString();
+    res.locals.error = req.flash('error').toString();
+    next();
+})
 routes(app);
 
 /**
