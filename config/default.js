@@ -8,5 +8,5 @@ module.exports = {
         key:'myblog',
         maxAge:2592000000
     },
-    mongodb:'mongodb://localhost:27017/myblog'
+    mongodb:'mongodb://54315d3e-5134-43f8-abb6-27cb2f0d2c39:b8facf1b-b0f4@192.168.1.19:27017/e0a669c5-786f-4bf1-a27a-c1b68069376f'
 }

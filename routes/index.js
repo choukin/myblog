@@ -17,4 +17,10 @@ module.exports = function (app) {
     app.use('/signout',require('./signout'))
     //查看文章
     app.use('/posts',require('./posts'));
+
+    app.use(function(req,res){
+        if(!res.headersSent){
+            res.render(404);
+        }
+    })
 };

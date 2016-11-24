@@ -6,6 +6,9 @@
         position:'bottom right',
         lastResort:'bottom right',
     })
+    $('.message .close').on('click', function() {
+        $(this).closest('.message').fadeOut();
+    });
 </script>
 </body>
 </html>

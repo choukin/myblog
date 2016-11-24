@@ -10,6 +10,9 @@ var config = require('config-lite');
 var routes = require('./routes');
 var pkg = require('./package');
 
+var winston = require('winston');
+var expressWinston = require('express-winston');
+
 var app = express();
 
 //设置模版目录
@@ -55,8 +58,36 @@ app.use(function (req,res,next) {
     res.locals.error = req.flash('error').toString();
     next();
 })
+
+app.use(expressWinston.logger({
+    transports:[
+        new (winston.transports.Console)({
+            json:true,
+            colorize:true
+        }),
+        new winston.transports.File({
+            filename:'logs/success.log'
+        })
+    ]
+}));
 routes(app);
 
+
+app.use(expressWinston.errorLogger({
+    transports:[
+        new (winston.transports.Console)({
+            json:true,
+            colorize:true
+        }),
+        new winston.transports.File({
+            filename:'logs/error.log'
+        })
+    ]
+}))
+
+app.use(function(err,req,res,next){
+    res.render('error',{error:err});
+})
 /**
  * 注意：中间件的加载顺序很重要。如上面设置静态文件目录的中间件应该放到 routes(app) 之前加载，这样静态文件的请求就不会落到业务逻辑的路由里；
  * flash 中间件应该放到 session 中间件之后加载，因为 flash 是基于 session 的。

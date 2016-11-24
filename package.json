@@ -4,7 +4,7 @@
   "description": "my first blog",
   "main": "index.js",
   "scripts": {
-    "start":"supervisor --harmony index",
+    "start":"NODE_ENV=production pm2 start index.js --node-args='--harmony' --name 'myblog",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
