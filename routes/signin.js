@@ -37,10 +37,11 @@ router.post('/',checkNotLogin,function (req,res,next) {
                 return res.redirect('back');
             }
             req.flash('success','登陆成功')
-
+          
             //用户信息写入 session
             delete user.password;
             req.session.user = user;
+            
             // 跳到主页
             res.redirect('/posts');
         }).catch(next);

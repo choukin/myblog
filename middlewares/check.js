@@ -1,3 +1,7 @@
+var jwt = require('express-jwt');
+var auth = jwt({
+    secret: 'dipper',
+});
 /**
  * check 检查用户登陆中间件
  * Created by dipper on 2016/11/14.
@@ -33,5 +37,6 @@ module.exports = {
             return res.redirect('back');
         }
         next();
-    }
+    },
+    auth:auth
 }

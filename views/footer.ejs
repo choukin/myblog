@@ -9,6 +9,14 @@
     $('.message .close').on('click', function() {
         $(this).closest('.message').fadeOut();
     });
+
+
+    <%if(typeof token !== 'undefined'){%>
+    var token = '<%=token%>';
+    window.localStorage.setItem('token',token);
+    <%}%>
+
+
 </script>
 </body>
 </html>

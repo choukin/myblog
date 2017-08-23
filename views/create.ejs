@@ -10,7 +10,8 @@
     </div>
 
     <div class="eight wide column">
-        <form action="/posts" class="ui form segment" method="post">
+        <form action="/posts?token=" id="createPosts" class="ui form segment" method="post">
+            <input type="hidden" id="token" name="token">
             <div class="field required">
                 <label for="">标题</label>
                 <input type="text" name="title">
@@ -24,3 +25,6 @@
     </div>
 </div>
 <%- include('footer')%>
+<script>
+    document.getElementById("createPosts").action = "/posts?token="+window.localStorage.getItem('token')
+</script>

@@ -59,17 +59,17 @@ app.use(function (req,res,next) {
     next();
 })
 
-app.use(expressWinston.logger({
-    transports:[
-        new (winston.transports.Console)({
-            json:true,
-            colorize:true
-        }),
-        new winston.transports.File({
-            filename:'logs/success.log'
-        })
-    ]
-}));
+// app.use(expressWinston.logger({
+//     transports:[
+//         new (winston.transports.Console)({
+//             json:true,
+//             colorize:true
+//         }),
+//         new winston.transports.File({
+//             filename:'logs/success.log'
+//         })
+//     ]
+// }));
 routes(app);
 
 

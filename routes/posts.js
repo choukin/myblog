@@ -3,11 +3,11 @@
  */
 var express = require('express')
 var router = express.Router();
-
+var jwt = require('express-jwt');
 var checkLogin = require('../middlewares/check').checkLogin;
-
+var auth = require('../middlewares/check').auth;
 var PostModel = require('../models/posts');
-
+var UserModel = require('../models/users');
 var CommentModel = require('../models/comments');
 
 /**
@@ -16,12 +16,13 @@ var CommentModel = require('../models/comments');
  */
 router.get('/',function (req,res,next) {
     var author = req.query.author;
-
+    var token = UserModel.generateJwt(req.session.user);
     PostModel.getPosts(author)
         .then(function (posts) {
-            console.log(posts+ "   then");
+           
             res.render('posts',{
-                posts:posts
+                posts:posts,
+                token:token
             })
         }).catch(function(e){
 
@@ -34,7 +35,22 @@ router.get('/',function (req,res,next) {
 /**
  * POST /posts 发表文章
  */
-router.post('/',checkLogin,function (req,res,next) {
+router.post('/',
+    jwt({
+        secret: 'dipper',
+        requestProperty: 'auth',
+        getToken: function fromHeaderOrQuerystring (req) {
+            if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+                return req.headers.authorization.split(' ')[1];
+            } else if (req.query && req.query.token) {
+                return req.query.token;
+            }else if(req.fields.token){
+                return req.fields.token;
+            }
+            return null;
+        }}),
+    function (req,res,next) {
+    console.log(req.auth);
      var author = req.session.user._id;
     var title = req.fields.title;
     var content = req.fields.content;

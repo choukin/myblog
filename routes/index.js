@@ -2,6 +2,7 @@
  * 主路由
  * Created by dipper on 2016/11/11.
  */
+
 module.exports = function (app) {
     
     //重定向到查看文章路由
@@ -17,7 +18,13 @@ module.exports = function (app) {
     app.use('/signout',require('./signout'))
     //查看文章
     app.use('/posts',require('./posts'));
-
+    app.use('/token',require('./token'));
+    app.use(function(err, req, res, next) {
+        if (err.name == 'UnauthorizedError') {
+            res.status(401);
+            res.json({ message: err.name + ":" + err.message });
+        }
+    });
     app.use(function(req,res){
         if(!res.headersSent){
             res.render(404);
